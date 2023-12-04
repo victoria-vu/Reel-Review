@@ -28,7 +28,7 @@ class Movie(db.Model):
 
     __tablename__ = "movies"
 
-    movie_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    movie_id = db.Column(db.Integer, primary_key=True)
     title = db.Column(db.String, nullable=False)
     overview = db.Column(db.Text, nullable=True)
     release_date = db.Column(db.DateTime, nullable=True)
