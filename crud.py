@@ -43,6 +43,13 @@ def create_review(user_id, movie_id, rating, review):
     return new_review
 
 
+### FUNCTIONS TO RETRIEVE ###
+def get_movies():
+    """Return all movies from the database."""
+
+    return Movie.query.all()
+
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
