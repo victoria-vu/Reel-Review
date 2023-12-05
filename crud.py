@@ -50,6 +50,12 @@ def get_movies():
     return Movie.query.all()
 
 
+def get_movie_by_id(movie_id):
+    """Return a movie by movie id."""
+
+    return Movie.query.get(movie_id)
+
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
