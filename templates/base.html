@@ -8,6 +8,12 @@
     {% block head %}{% endblock %}
 </head>
 <body>
+    {% for msg in get_flashed_messages() %}
+        <p class="flask-msg">
+            {{ msg }}
+        </p>
+    {% endfor %}
+
     {% block body %}{% endblock %}    
 </body>
 </html>
