@@ -1,5 +1,5 @@
 {% extends "base.html" %}
-{% block title %}Reel Review's Homepage{% endblock %}
+{% block title %}Homepage{% endblock %}
 
 {% block body %}
     <h1>Welcome!</h1>
@@ -8,4 +8,27 @@
         <li><a href="/movies">View Movies</a></li>
         <li><a href="/users">View Users</a></li>
     </ul>
+
+    {% if 'user_id' not in session.keys() %}
+        <h2>Create an Account</h2>
+        <form action="/signup" method="POST">
+            <label for="email">Email</label>
+            <input type="text" name="email" required="">
+            <br>
+            <label for="password">Password</label>
+            <input type="password" name="password" required="">
+            <br>
+            <label for="fname">First Name</label>
+            <input type="text" name="fname" required="">
+            <br>
+            <label for="lname">Last Name</label>
+            <input type="text" name="lname" required="">
+            <br>
+            <p>Already have an account? <a href="/login">Click here to log in</a>.</p>
+            <input type="submit">
+        </form>
+    {% else %}
+        <a href="/logout">Log Out</a>
+    {% endif %}
+
 {% endblock %}
