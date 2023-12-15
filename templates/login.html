@@ -1,0 +1,17 @@
+{% extends "base.html" %}
+
+{% block title %}Log In{% endblock %}
+
+{% block body %}
+<h2>Log In</h2>
+<h3>Welcome Back to Reel Reviews!</h3>
+    <form action="/login" method="POST">
+        <label for="email">Email</label>
+        <input type="text" name="email" required="">
+        <br>
+        <label for="password">Password</label>
+        <input type="password" name="password" required="">
+        <br>
+        <input type="submit">
+    </form>
+{% endblock %}
