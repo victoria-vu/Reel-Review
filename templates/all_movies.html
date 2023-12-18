@@ -1,13 +1,17 @@
 {% extends "base.html" %}
-{% block title %}All Movies{% endblock %}
+{% block title %}Search Results{% endblock %}
 
 {% block body %}
-<h1>All Movies</h1>
+<h1>Search Results</h1>
     <ul>
         {% for movie in movies %}
-                <li>
-                    <a href="movies/{{ movie.movie_id }}">{{ movie.title }}</a>
-                </li>
+            <img src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}" width=350 height=500 alt="Image of movie {{ movie['original_title'] }}" />
+            <br>
+            {{ movie['original_title'] }} 
+            <br>
+            {{ movie['release_date'] }}
+            <br>
+            <br>
         {% endfor %}
     </ul>
 {% endblock %}
