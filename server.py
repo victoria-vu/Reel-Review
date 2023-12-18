@@ -6,6 +6,7 @@ from jinja2 import StrictUndefined
 import crud
 import os
 import requests
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -41,26 +42,31 @@ def search_movies():
 
     if "results" in data:
         movies = data["results"]
-    
-    return render_template("all_movies.html", movies=movies)
+    else:
+        movies = []
+
+    total = len(movies)
+
+    return render_template("all_movies.html", movies=movies, term=term, total=total)
 
 
-@app.route("/movies")
-def all_movies():
-    """View all movies."""
-
-    movies = crud.get_movies()
-
-    return render_template("all_movies.html", movies=movies)
-
-
-@app.route("/movies/<movie_id>")
+@app.route("/movie/<movie_id>")
 def show_movie(movie_id):
     """Show details about a particular movie."""
 
-    movie = crud.get_movie_by_id(movie_id)
+    url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+    headers = {
+    "accept": "application/json",
+    "Authorization": API_KEY
+    }
 
-    return render_template("movie_details.html", movie=movie)
+    res = requests.get(url, headers=headers)
+    movie = res.json()
+    date_str = movie["release_date"]
+    date_obj = datetime.strptime(date_str, "%Y-%m-%d")
+    formatted_date = date_obj.strftime("%m/%d/%Y")
+
+    return render_template("movie_details.html", movie=movie, formatted_date=formatted_date)
 
 
 @app.route("/users")
