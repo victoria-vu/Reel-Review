@@ -3,15 +3,16 @@
 
 {% block body %}
 <h1>Search Results</h1>
+    {% if total == 0 %}
+    Sorry, but nothing matched your search criteria. Please try again.
+    {% elif total %}
+    Your search for "{{ term }}" has {{ total }} matches.
+    {% endif %}
     <ul>
         {% for movie in movies %}
             <img src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}" width=350 height=500 alt="Image of movie {{ movie['original_title'] }}" />
-            <br>
-            {{ movie['original_title'] }} 
-            <br>
-            {{ movie['release_date'] }}
-            <br>
-            <br>
+            <h3>{{ movie['original_title'] }}</h3>
+            <p><a href="/movie/{{ movie['id'] }}">View More Details</a></p>
         {% endfor %}
     </ul>
 {% endblock %}
