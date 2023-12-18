@@ -1,15 +1,15 @@
 {% extends "base.html" %}
 
-{% block title %}{{ movie.title }}{% endblock %}
+{% block title %}{{ movie['original_title'] }}{% endblock %}
 
 {% block body %}
-<h1>{{ movie.title }}</h1>
-<img src="https://image.tmdb.org/t/p/original/{{ movie.poster_path }}" width=350 height=500 alt="Image of movie {{ movie.title }}" />
+<h1>{{ movie['original_title'] }}</h1>
+<img src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}" width=350 height=500 alt="Image of movie {{ movie['original_title'] }}" />
 <p>
-    Release Date: {{ movie.release_date.strftime("%m/%d/%Y") }}
+    Release Date: {{ formatted_date }}
 </p>
 
 <p>
-    Overview: {{ movie.overview }}
+    Overview: {{ movie['overview'] }}
 </p>
 {% endblock %}
