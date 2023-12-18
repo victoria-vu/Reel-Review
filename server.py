@@ -7,6 +7,7 @@ import crud
 import os
 import requests
 from datetime import datetime
+from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -44,9 +45,9 @@ def search_movies():
         movies = data["results"]
     else:
         movies = []
-
+    
     total = len(movies)
-
+    
     return render_template("all_movies.html", movies=movies, term=term, total=total)
 
 
@@ -66,6 +67,7 @@ def show_movie(movie_id):
     date_obj = datetime.strptime(date_str, "%Y-%m-%d")
     formatted_date = date_obj.strftime("%m/%d/%Y")
 
+    return render_template("movie_details.html", movie=movie, formatted_date=formatted_date)
     return render_template("movie_details.html", movie=movie, release_date=formatted_date)
 
 
