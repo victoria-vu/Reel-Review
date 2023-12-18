@@ -66,7 +66,7 @@ def show_movie(movie_id):
     date_obj = datetime.strptime(date_str, "%Y-%m-%d")
     formatted_date = date_obj.strftime("%m/%d/%Y")
 
-    return render_template("movie_details.html", movie=movie, formatted_date=formatted_date)
+    return render_template("movie_details.html", movie=movie, release_date=formatted_date)
 
 
 @app.route("/users")
