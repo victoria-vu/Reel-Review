@@ -2,13 +2,16 @@
 
 from flask import (Flask, render_template, request, flash, session, redirect)
 from model import connect_to_db, db
-import crud
 from jinja2 import StrictUndefined
+import crud
+import os
+import requests
 
 app = Flask(__name__)
 app.secret_key = "dev"
 app.jinja_env.undefined = StrictUndefined
 app.app_context().push()
+API_KEY = os.environ["TMDB_API_KEY"]
 
 
 @app.route("/")
@@ -16,6 +19,30 @@ def homepage():
     """View homepage."""
 
     return render_template("homepage.html")
+
+
+@app.route("/search")
+def search_movies():
+    """Search for movies via TMDb API."""
+
+    term = request.args.get("term")
+
+    url = "https://api.themoviedb.org/3/search/movie?include_adult=false&language=en-US&page=1"
+    payload = {
+        "query": term
+    }
+    headers = {
+        "accept": "application/json",
+        "Authorization": API_KEY
+    }
+
+    res = requests.get(url, params=payload, headers=headers)
+    data = res.json()
+
+    if "results" in data:
+        movies = data["results"]
+    
+    return render_template("all_movies.html", movies=movies)
 
 
 @app.route("/movies")
