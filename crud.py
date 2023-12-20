@@ -50,6 +50,12 @@ def get_movies():
     return Movie.query.all()
 
 
+def get_all_movie_reviews(movie_id):
+    """Return all reviews for a movie by movie id."""
+
+    return Review.query.filter(Review.movie_id == movie_id).all()
+
+
 def get_movie_by_id(movie_id):
     """Return a movie by movie id."""
 
