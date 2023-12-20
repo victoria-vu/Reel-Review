@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}My Reviews{% endblock %}
+
+{% block body %}
+<h1>My Reviews</h1>
+    {% for review in reviews|reverse %}
+        <a href="/movie/{{ review.movie.movie_id }}">{{ review.movie.title }}</a><br>
+        Rating: {{ review.rating }}<br>
+        Review: {{ review.review }}<br>
+        <br>
+    {% endfor %}
+{% endblock %}
