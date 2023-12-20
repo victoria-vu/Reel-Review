@@ -123,6 +123,17 @@ def add_review(movie_id):
     return redirect(f"/movie/{movie_id}")
 
 
+@app.route("/myreviews")
+def reviews_page():
+    """View all user reviews."""
+
+    user_id = session["user_id"]
+    user = crud.get_user_by_id(user_id)
+    reviews = crud.get_all_user_reviews(user_id)
+
+    return render_template("user_reviews.html", user=user, reviews=reviews)
+
+
 @app.route("/users")
 def all_users():
     """View all users."""
