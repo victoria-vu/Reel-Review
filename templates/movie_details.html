@@ -5,11 +5,40 @@
 {% block body %}
 <h1>{{ movie['original_title'] }}</h1>
 <img src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}" width=350 height=500 alt="Image of movie {{ movie['original_title'] }}" />
-<p>
-    Release Date: {{ release_date }}
-</p>
+<h2> Release Date: </h2>
+{{ release_date }}
 
-<p>
-    Overview: {{ movie['overview'] }}
-</p>
+<h2>Overview:</h2>
+{{ movie['overview'] }}
+
+<h2>Movie Reviews ({{ total_reviews }}):</h2>
+
+{% if 'user_id' in session.keys() %}
+    
+    <h3>Leave a Review:</h3>
+    <form action="/addreview/{{ movie['id']}}" method="POST">
+        Your Rating:
+        <br>
+        <input type="radio" name="rating" value="1">
+        <input type="radio" name="rating" value="2">
+        <input type="radio" name="rating" value="3">
+        <input type="radio" name="rating" value="4">
+        <input type="radio" name="rating" value="5">
+        <br>
+        <label for="review">Your Review:</label><br>
+        <textarea name="review"></textarea><br>
+
+        <input type="submit">
+    </form>
+{% endif %}
+
+<br>
+{% for review in reviews %}
+    {{ review.user.fname }}:<br>
+    Rating: {{ review.rating }}<br>
+    Review: {{ review.review }}<br>
+    <br>
+{% endfor %}
+
+
 {% endblock %}
