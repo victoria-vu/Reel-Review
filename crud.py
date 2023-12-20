@@ -80,6 +80,12 @@ def get_user_by_email(email):
     return User.query.filter(User.email == email).first()
 
 
+def get_all_user_reviews(user_id):
+    """Return all reviews for a user by user id."""
+
+    return Review.query.filter(Review.user_id == user_id).all()
+
+
 if __name__ == '__main__':
     from server import app
     connect_to_db(app)
