@@ -1,6 +1,7 @@
 """"CRUD Operations: Functions to create, retrieve, update, or delete data from the database."""
 
 from model import db, User, Movie, Review, connect_to_db
+from flask import flash
 
 ### FUNCTIONS TO CREATE ###
 def create_user(email, password, fname, lname):
@@ -84,6 +85,26 @@ def get_all_user_reviews(user_id):
     """Return all reviews for a user by user id."""
 
     return Review.query.filter(Review.user_id == user_id).all()
+
+
+def get_review_by_user_id(user_id):
+    """Return a review by user id."""
+
+    return Review.query.filter(Review.user_id == user_id).first()
+
+
+### FUNCTIONS TO UPDATE ###
+def update_review(existing_review, new_rating, new_review):
+    """Update an existing review for a user."""
+
+    try:
+        existing_review.rating = new_rating
+        existing_review.review = new_review
+        db.session.add(existing_review)
+        db.session.commit()
+    except Exception as e:
+        flash("Sorry, we couldn't update your review.")
+        print(e)
 
 
 if __name__ == '__main__':
