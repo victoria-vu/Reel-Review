@@ -7,7 +7,6 @@ import crud
 import os
 import requests
 from datetime import datetime
-from datetime import datetime
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -81,11 +80,17 @@ def show_movie(movie_id):
 
 @app.route("/addreview/<movie_id>", methods=["POST"])
 def add_review(movie_id):
-    """Create a review for a particular movie on movie details page."""
+    """Create a review for a particular movie on movie details page.
+    
+    Two options:
+    1. Create a new review.
+    2. Update an existing review.
+    *  A user can only have one review for a movie. *
+    """
 
     movie_in_db = crud.get_movie_by_id(movie_id)
-    print(movie_in_db)
 
+    # If movie is not in database, add into database.
     if not movie_in_db:
         url = f"https://api.themoviedb.org/3/movie/{movie_id}"
         headers = {
@@ -94,7 +99,6 @@ def add_review(movie_id):
         }
         res = requests.get(url, headers=headers)
         movie = res.json()
-        print(movie)
 
         new_movie = crud.create_movie(
             movie_id,
@@ -106,20 +110,27 @@ def add_review(movie_id):
         db.session.add(new_movie)
         db.session.commit()
     
+    movie = crud.get_movie_by_id(movie_id)
     rating = request.form.get("rating")
     review = request.form.get("review")
     user_id = session["user_id"]
+    existing_review = crud.get_review_by_user_id(user_id)
 
-    new_review = crud.create_review(
-        user_id,
-        movie_id,
-        rating,
-        review
-    )
-    db.session.add(new_review)
-    db.session.commit()
+    if not existing_review:
+        new_review = crud.create_review(
+            user_id,
+            movie_id,
+            rating,
+            review
+        )
+        db.session.add(new_review)
+        db.session.commit()
+        flash(f"You have successfully created your review for {movie.title}.")
+    
+    elif existing_review:
+        crud.update_review(existing_review, rating, review)
+        flash(f"You have successfully updated your review for {movie.title}.")
 
-    flash("You have successfully created a review.")
     return redirect(f"/movie/{movie_id}")
 
 
