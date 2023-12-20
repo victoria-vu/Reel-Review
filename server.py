@@ -67,8 +67,60 @@ def show_movie(movie_id):
     date_obj = datetime.strptime(date_str, "%Y-%m-%d")
     formatted_date = date_obj.strftime("%m/%d/%Y")
 
-    return render_template("movie_details.html", movie=movie, formatted_date=formatted_date)
-    return render_template("movie_details.html", movie=movie, release_date=formatted_date)
+    movie_in_db = crud.get_movie_by_id(movie_id)
+    
+    if movie_in_db:
+        reviews = crud.get_all_movie_reviews(movie_id)
+    else:
+        reviews = []
+    
+    total_reviews = len(reviews)
+
+    return render_template("movie_details.html", movie=movie, release_date=formatted_date, reviews=reviews, total_reviews=total_reviews)
+
+
+@app.route("/addreview/<movie_id>", methods=["POST"])
+def add_review(movie_id):
+    """Create a review for a particular movie on movie details page."""
+
+    movie_in_db = crud.get_movie_by_id(movie_id)
+    print(movie_in_db)
+
+    if not movie_in_db:
+        url = f"https://api.themoviedb.org/3/movie/{movie_id}"
+        headers = {
+        "accept": "application/json",
+        "Authorization": API_KEY
+        }
+        res = requests.get(url, headers=headers)
+        movie = res.json()
+        print(movie)
+
+        new_movie = crud.create_movie(
+            movie_id,
+            movie["original_title"],
+            movie["overview"],
+            movie["release_date"],
+            movie["poster_path"]
+        )
+        db.session.add(new_movie)
+        db.session.commit()
+    
+    rating = request.form.get("rating")
+    review = request.form.get("review")
+    user_id = session["user_id"]
+
+    new_review = crud.create_review(
+        user_id,
+        movie_id,
+        rating,
+        review
+    )
+    db.session.add(new_review)
+    db.session.commit()
+
+    flash("You have successfully created a review.")
+    return redirect(f"/movie/{movie_id}")
 
 
 @app.route("/users")
