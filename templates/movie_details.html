@@ -34,10 +34,16 @@
 
 <br>
 {% for review in reviews %}
-    {{ review.user.fname }}:<br>
+    {{ review.user.fname }}<br>
     Rating: {{ review.rating }}<br>
     Review: {{ review.review }}<br>
     <br>
+    {% if review.user.user_id == session['user_id'] %}
+        <form action="/deletereview" method="POST">
+            <input type="hidden" name="review-id" value="{{ review.review_id }}">
+            <button type="submit">Delete Review</button>
+        </form>
+    {% endif %}
 {% endfor %}
 
 

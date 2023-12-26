@@ -134,6 +134,20 @@ def add_review(movie_id):
     return redirect(f"/movie/{movie_id}")
 
 
+@app.route("/deletereview", methods=["POST"])
+def delete_review_on_movie_details_page():
+    """Delete a review on movie details page."""
+
+    review_id = request.form.get("review-id")
+    review = crud.get_review_by_review_id(review_id)
+    movie_title = review.movie.title
+    movie_id = review.movie.movie_id
+    crud.delete_review(review_id)
+
+    flash(f"You have successfully removed your review for {movie_title}.")
+    return redirect(f"/movie/{movie_id}")
+
+
 @app.route("/myreviews")
 def reviews_page():
     """View all user reviews."""

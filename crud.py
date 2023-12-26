@@ -93,6 +93,12 @@ def get_review_by_user_id(user_id):
     return Review.query.filter(Review.user_id == user_id).first()
 
 
+def get_review_by_review_id(review_id):
+    """Return a review by review id."""
+
+    return Review.query.filter(Review.review_id == review_id).first()
+
+
 ### FUNCTIONS TO UPDATE ###
 def update_review(existing_review, new_rating, new_review):
     """Update an existing review for a user."""
@@ -105,6 +111,15 @@ def update_review(existing_review, new_rating, new_review):
     except Exception as e:
         flash("Sorry, we couldn't update your review.")
         print(e)
+
+
+### FUNCTIONS TO DELETE ###
+def delete_review(review_id):
+    """Delete a review by review id."""
+
+    review = get_review_by_review_id(review_id)
+    db.session.delete(review)
+    db.session.commit()
 
 
 if __name__ == '__main__':
