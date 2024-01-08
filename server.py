@@ -7,6 +7,7 @@ import crud
 import os
 import requests
 from datetime import datetime
+from werkzeug.security import check_password_hash
 
 app = Flask(__name__)
 app.secret_key = "dev"
@@ -63,15 +64,15 @@ def login_user():
     if not user:
         flash("The email you typed in does not exist. Please sign up for an account or try again.")
     elif user:
-        if password == user.password:
+        if not check_password_hash(user.password, password):
+            flash("Incorrect password. Please try again.")
+        else:
             session["user_id"] = user.user_id
             session["name"]= user.fname
             session["email"] = user.email
             flash("Logged in successfully.")
             return redirect("/")
-        else:
-            flash("Incorrect password. Please try again.")
-
+            
     return redirect("/login")
 
 

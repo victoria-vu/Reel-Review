@@ -2,6 +2,7 @@
 
 from model import db, User, Movie, Review, connect_to_db
 from flask import flash
+from werkzeug.security import generate_password_hash
 
 ### FUNCTIONS TO CREATE ###
 def create_user(email, password, fname, lname):
@@ -9,7 +10,7 @@ def create_user(email, password, fname, lname):
 
     user = User(
         email=email,
-        password=password,
+        password=generate_password_hash(password, method="scrypt"),
         fname=fname,
         lname=lname
     )
