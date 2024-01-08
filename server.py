@@ -22,6 +22,59 @@ def homepage():
     return render_template("homepage.html")
 
 
+@app.route("/signup", methods=["POST"])
+def signup_user():
+    """Create a new user."""
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+    fname = request.form.get("fname")
+    lname = request.form.get("lname")
+
+    user = crud.get_user_by_email(email)
+
+    if user:
+        flash("A user with that email address already exists. Please try a different email address to register, or log in to your existing account.")
+    else:
+        user = crud.create_user(email, password, fname, lname)
+        db.session.add(user)
+        db.session.commit()
+        flash("Your account has been successfully created! Please log in.")
+
+    return redirect("/login")
+
+
+@app.route("/login")
+def login_page():
+    """View log in page."""
+
+    return render_template("login.html")
+
+
+@app.route("/login", methods=["POST"])
+def login_user():
+    """Log in an existing user."""
+
+    email = request.form.get("email")
+    password = request.form.get("password")
+
+    user = crud.get_user_by_email(email)
+
+    if not user:
+        flash("The email you typed in does not exist. Please sign up for an account or try again.")
+    elif user:
+        if password == user.password:
+            session["user_id"] = user.user_id
+            session["name"]= user.fname
+            session["email"] = user.email
+            flash("Logged in successfully.")
+            return redirect("/")
+        else:
+            flash("Incorrect password. Please try again.")
+
+    return redirect("/login")
+
+
 @app.route("/search")
 def search_movies():
     """Search for movies via TMDb API."""
@@ -47,7 +100,7 @@ def search_movies():
     
     total = len(movies)
     
-    return render_template("all_movies.html", movies=movies, term=term, total=total)
+    return render_template("movie_results.html", movies=movies, term=term, total=total)
 
 
 @app.route("/movie/<movie_id>")
@@ -148,6 +201,15 @@ def delete_review_on_movie_details_page():
     return redirect(f"/movie/{movie_id}")
 
 
+@app.route("/user/<user_id>")
+def show_user(user_id):
+    """Show details about a particular user."""
+
+    user = crud.get_user_by_id(user_id)
+
+    return render_template("user_profile.html", user=user)
+
+
 @app.route("/myreviews")
 def reviews_page():
     """View all user reviews."""
@@ -157,77 +219,6 @@ def reviews_page():
     reviews = crud.get_all_user_reviews(user_id)
 
     return render_template("user_reviews.html", user=user, reviews=reviews)
-
-
-@app.route("/users")
-def all_users():
-    """View all users."""
-
-    users = crud.get_users()
-
-    return render_template("all_users.html", users=users)
-
-
-@app.route("/user/<user_id>")
-def show_user(user_id):
-    """Show details about a particular user."""
-
-    user = crud.get_user_by_id(user_id)
-
-    return render_template("user_details.html", user=user)
-
-
-@app.route("/signup", methods=["POST"])
-def signup_user():
-    """Create a new user."""
-
-    email = request.form.get("email")
-    password = request.form.get("password")
-    fname = request.form.get("fname")
-    lname = request.form.get("lname")
-
-    user = crud.get_user_by_email(email)
-
-    if user:
-        flash("A user with that email address already exists. Please try a different email address to register, or log in to your existing account.")
-    else:
-        user = crud.create_user(email, password, fname, lname)
-        db.session.add(user)
-        db.session.commit()
-        flash("Your account has been successfully created! Please log in.")
-
-    return redirect("/login")
-
-
-@app.route("/login")
-def login_page():
-    """View log in page."""
-
-    return render_template("login.html")
-
-
-@app.route("/login", methods=["POST"])
-def login_user():
-    """Log in an existing user."""
-
-    email = request.form.get("email")
-    password = request.form.get("password")
-
-    user = crud.get_user_by_email(email)
-
-    if not user:
-        flash("The email you typed in does not exist. Please sign up for an account or try again.")
-    elif user:
-        if password == user.password:
-            session["user_id"] = user.user_id
-            session["name"]= user.fname
-            session["email"] = user.email
-            flash("Logged in successfully.")
-            return redirect("/")
-        else:
-            flash("Incorrect password. Please try again.")
-
-    return redirect("/login")
 
 
 @app.route("/logout")
