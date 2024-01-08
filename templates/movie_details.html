@@ -35,6 +35,7 @@
 <br>
 {% for review in reviews %}
     {{ review.user.fname }}<br>
+    {{ review.review_date.strftime('%m/%d/%Y') }}<br>
     Rating: {{ review.rating }}<br>
     Review: {{ review.review }}<br>
     <br>

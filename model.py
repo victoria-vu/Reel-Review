@@ -1,5 +1,6 @@
 """Models for Reel Reviews app."""
 
+from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 
 db = SQLAlchemy()
@@ -52,6 +53,7 @@ class Review(db.Model):
     movie_id = db.Column(db.Integer, db.ForeignKey("movies.movie_id"))
     rating = db.Column(db.Integer, nullable=False)
     review = db.Column(db.Text, nullable=True)
+    review_date = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     movie = db.relationship("Movie", back_populates="reviews")
     user = db.relationship("User", back_populates="reviews")
