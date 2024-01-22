@@ -3,15 +3,25 @@
 {% block title %}Log In{% endblock %}
 
 {% block body %}
-<h2>Log In</h2>
-<h3>Welcome Back to Reel Reviews!</h3>
-    <form action="/login" method="POST">
-        <label for="email">Email</label>
-        <input type="text" name="email" required="">
-        <br>
-        <label for="password">Password</label>
-        <input type="password" name="password" required="">
-        <br>
-        <input type="submit">
-    </form>
+<section class="container px-4 py-5 my-5" id="login">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-4">
+            <div class="login-wrap p-4 p-md-5 border rounded-3"">
+                <h3 class="heading-section text-center">Log In</h3>
+                <h5 class="mb-4 text-center">Welcome Back to Reel Reviews!</h5>
+                <form action="/login" method="POST">
+                    <div class="form-floating mb-3">
+                        <input type="text" class="form-control" id="floatingEmail" name="email" placeholder="Email" required="">
+                        <label for="floatingEmail">Email</label>
+                    </div>
+                    <div class="form-floating mb-3">
+                        <input type="password" class="form-control" id="floatingPassword" name="password" placeholder="Password" required="">
+                        <label for="floatingPassword">Password</label>
+                    </div>
+                    <button type="submit">Log In</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</section>
 {% endblock %}
