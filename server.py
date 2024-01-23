@@ -168,7 +168,7 @@ def add_review(movie_id):
     rating = request.form.get("rating")
     review = request.form.get("review")
     user_id = session["user_id"]
-    existing_review = crud.get_review_by_user_id(user_id)
+    existing_review = crud.get_review_by_user_and_movie_id(user_id, movie_id)
 
     if not existing_review:
         new_review = crud.create_review(
