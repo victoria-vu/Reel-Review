@@ -2,17 +2,41 @@
 {% block title %}Search Results{% endblock %}
 
 {% block body %}
-<h1>Search Results</h1>
-    {% if total == 0 %}
-    Sorry, but nothing matched your search criteria. Please try again.
-    {% elif total %}
-    Your search for "{{ term }}" has {{ total }} matches.
-    {% endif %}
-    <ul>
-        {% for movie in movies %}
-            <img src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}" width=350 height=500 alt="Image of movie {{ movie['original_title'] }}" />
-            <h3>{{ movie['original_title'] }}</h3>
-            <p><a href="/movie/{{ movie['id'] }}">View More Details</a></p>
-        {% endfor %}
-    </ul>
+<section class="py-5 my-3">
+    <div class="container">
+    <h1>Search Results</h1>
+        <div class="search-results mb-4">
+            {% if total == 0 %}
+            <h5>Sorry, but nothing matched your search criteria. Please try again.</h5>
+            {% elif total %}
+            <h5>Your search for "{{ term }}" has {{ total }} matches.</h5>
+            {% endif %}
+        </div>
+        <div class="row mb-3">
+            {% for movie in movies %}
+            <div class="col-md-4 mb-5">
+                <div class="card text-center mx-auto" style="width: 75%">
+                    {% if movie['poster_path'] %}
+                        <img 
+                        src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}"  
+                        class="card-img-top" 
+                        alt="Image of movie {{ movie['original_title'] }}"
+                        />
+                    {% else %}
+                        <img
+                            src="/static/img/placeholder.jpeg"
+                            class="card-img-top"
+                            alt="Placeholder image of movie {{ movie['original_title'] }}"
+                        />
+                    {% endif %}
+                    <div class="card-body">
+                        <h5 class="card-title">{{ movie['original_title'] }} ({{ movie['release_date'][:4]}}) </h5>
+                        <a href="/movie/{{ movie['id'] }}" class="btn btn-primary">View More Details</a>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
 {% endblock %}
