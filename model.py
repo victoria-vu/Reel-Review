@@ -15,6 +15,7 @@ class User(db.Model):
     password = db.Column(db.String, nullable=False)
     fname = db.Column(db.String, nullable=False)
     lname = db.Column(db.String, nullable=False)
+    date_joined = db.Column(db.DateTime, default=datetime.utcnow, nullable=False)
 
     reviews = db.relationship("Review", back_populates="user")
 
