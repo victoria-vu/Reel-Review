@@ -206,9 +206,12 @@ def delete_review_on_movie_details_page():
 def show_user(user_id):
     """Show details about a particular user."""
 
+    user_id = session["user_id"]
     user = crud.get_user_by_id(user_id)
+    reviews = crud.get_all_user_reviews(user_id)
+    total_reviews = len(reviews)
 
-    return render_template("user_profile.html", user=user)
+    return render_template("user_profile.html", user=user, reviews=reviews, total_reviews=total_reviews)
 
 
 @app.route("/myreviews")
@@ -220,6 +223,19 @@ def reviews_page():
     reviews = crud.get_all_user_reviews(user_id)
 
     return render_template("user_reviews.html", user=user, reviews=reviews)
+
+
+@app.route("/myreviews/deletereview", methods=["POST"])
+def delete_review_on_my_reviews_page():
+    """Delete a review on user reviews page."""
+
+    review_id = request.form.get("review-id")
+    review = crud.get_review_by_review_id(review_id)
+    movie_title = review.movie.title
+    crud.delete_review(review_id)
+
+    flash(f"You have successfully removed your review for {movie_title}.")
+    return redirect("/myreviews")
 
 
 @app.route("/logout")
