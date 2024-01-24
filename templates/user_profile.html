@@ -2,6 +2,55 @@
 {% block title %}{{ user.fname }}'s Profile{% endblock %}
 
 {% block body %}
-<h1>{{ user.fname }} {{ user.lname }}</h1>
-<p>{{ user.email }}</p>
+<section class="py-5 my-3">
+    <div class="container col-md-6">
+    <h1 class="text-center mb-3">{{ user.fname }}'s Profile</h1>
+
+    <!-- User Information -->
+    <div class="mb-3">
+        <h2 class="text-center mb-3">About Me</h2>
+        <h6><strong>Name:</strong> {{ user.fname }} {{ user.lname[0] }}.</h6>
+        <h6><strong>Joined On:</strong> {{ user.date_joined.strftime('%b %d, %Y') }}</h6>
+        <h6><strong>Reviews:</strong> {{ total_reviews }}</h6>
+    </div>
+
+    <!-- User Reviews -->
+    <div class="mb-3">
+        <h2 class="text-center mb-3">Reviews</h2>
+        <div class="accordion" id="userReviewsAccordian">
+            {% for review in reviews|reverse %}
+            <div class="accordion-item">
+            <h2 class="accordion-header" id="heading{{ review.movie.movie_id }}">
+                <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ review.movie.movie_id }}" aria-expanded="false" aria-controls="collapse{{ review.movie.movie_id }}">
+                    <h5>{{ review.movie.title }}</h5>
+                </button>
+            </h2>
+            <div id="collapse{{ review.movie.movie_id }}" class="accordion-collapse collapse" aria-labelledby="heading{{ review.movie.movie_id }}" data-bs-parent="userReviewsAccordian">
+                <div class="accordion-body d-flex my-4">
+                    
+                    <!-- Movie Image -->
+                    <img 
+                        src="https://image.tmdb.org/t/p/original/{{ review.movie.poster_path }}" 
+                        alt="{{ review.movie.title }} Poster" 
+                        style="max-width: 100px; max-height: 150px;"
+                        class="mx-4"
+                    />
+
+                    <!-- Review Content -->
+                    <div class="mx-4">
+                        <h5><a href="/movie/{{ review.movie.movie_id }}#{{ review.review_id }}">{{ review.movie.title }}</a></h5>
+                        <h6>Reviewed On: {{ review.review_date.strftime('%b %d, %Y') }}</h6>
+                        {% for i in range(review.rating) %}
+                            <i class="fa-solid fa-star star-yellow"></i>
+                        {% endfor %}
+                        <h6 class="my-3">{{ review.review }}</h6>
+                    </div>
+                </div>
+            </div>
+            </div>
+            {% endfor %}
+        </div>
+        </div>  
+    </div>
+</section>
 {% endblock %}
