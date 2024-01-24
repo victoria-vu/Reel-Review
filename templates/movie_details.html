@@ -3,49 +3,98 @@
 {% block title %}{{ movie['original_title'] }}{% endblock %}
 
 {% block body %}
-<h1>{{ movie['original_title'] }}</h1>
-<img src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}" width=350 height=500 alt="Image of movie {{ movie['original_title'] }}" />
-<h2> Release Date: </h2>
-{{ release_date }}
+<section class="py-5 my-3">
+    <div class="container">
+        <div class="row mb-5">
 
-<h2>Overview:</h2>
-{{ movie['overview'] }}
+            <!-- Movie Image -->
+            <div class="col-md-4">
+                <img 
+                    src="https://image.tmdb.org/t/p/original/{{ movie['poster_path'] }}" 
+                    class="img-fluid"
+                    width="300"
+                    height="500"
+                    alt="Image of movie {{ movie['original_title'] }}" 
+                />
+            </div>
 
-<h2>Movie Reviews ({{ total_reviews }}):</h2>
+            <!-- Movie Details -->
+            <div class="col-md-8">
+                <h1 class="my-3">{{ movie['original_title'] }}</h1>
+                <h3> Release Date: </h2>
+                <p class="my-3">{{ release_date }}</p>
+                <h3>Overview:</h2>
+                <p>{{ movie['overview'] }}</p>
+            </div>
+        </div>
 
-{% if 'user_id' in session.keys() %}
-    
-    <h3>Leave a Review:</h3>
-    <form action="/addreview/{{ movie['id']}}" method="POST">
-        Your Rating:
-        <br>
-        <input type="radio" name="rating" value="1">
-        <input type="radio" name="rating" value="2">
-        <input type="radio" name="rating" value="3">
-        <input type="radio" name="rating" value="4">
-        <input type="radio" name="rating" value="5">
-        <br>
-        <label for="review">Your Review:</label><br>
-        <textarea name="review"></textarea><br>
+        <div class="row">
+        <h3>Movie Reviews ({{ total_reviews }}):</h3>
 
-        <input type="submit">
-    </form>
-{% endif %}
+        {% if 'user_id' in session.keys() %}
+            <div class="mb-3">
+                <form class="p-4 px-5 my-3 border rounded-3" action="/addreview/{{ movie['id']}}" method="POST">
+                    <h5 class="pb-1">Write a Review:</h5>
 
-<br>
-{% for review in reviews %}
-    {{ review.user.fname }}<br>
-    {{ review.review_date.strftime('%m/%d/%Y') }}<br>
-    Rating: {{ review.rating }}<br>
-    Review: {{ review.review }}<br>
-    <br>
-    {% if 'user_id' in session.keys() and review.user.user_id == session['user_id'] %}
-        <form action="/deletereview" method="POST">
-            <input type="hidden" name="review-id" value="{{ review.review_id }}">
-            <button type="submit">Delete Review</button>
-        </form>
-    {% endif %}
-{% endfor %}
+                    <!-- Rating Input -->
+                    <div class="form-group pb-3">
+                        <h6>Score:</h6>
+                        <div class="star-container">
+                            <div class="star-widget">
+                                <input type="radio" name="rating" id="rate-5" value="5" required="">
+                                <label for="rate-5" class="fa-solid fa-star"></label>
+                                <input type="radio" name="rating" id="rate-4" value="4" required="">
+                                <label for="rate-4" class="fa-solid fa-star"></label>
+                                <input type="radio" name="rating" id="rate-3" value="3" required="">
+                                <label for="rate-3" class="fa-solid fa-star"></label>
+                                <input type="radio" name="rating" id="rate-2" value="2" required="">
+                                <label for="rate-2" class="fa-solid fa-star"></label>
+                                <input type="radio" name="rating" id="rate-1" value="1" required="">
+                                <label for="rate-1" class="fa-solid fa-star"></label>
+                            </div>
+                        </div>
+                    </div>
 
+                    <!-- Text Input -->
+                    <div class="form-group pb-3">
+                        <h6>Review:</h6>
+                        <textarea class="form-control" name="review" required=""></textarea>
+                    </div>
 
+                    <!-- Form Action -->
+                    <div class="form-group">
+                        <input type="submit">
+                    </div>
+                </form>
+            </div>
+        {% endif %}
+        </div>
+
+        <div class="row">
+            {% for review in reviews %}
+                <div class="my-1" id="{{ review.review_id }}">
+
+                    <!-- Review Content -->
+                    <h5>{{ review.user.fname }}</h5>
+                    <p>
+                        {% for i in range(review.rating) %}
+                            <i class="fa-solid fa-star star-yellow"></i>
+                        {% endfor %}
+                        {{ review.review_date.strftime('%b %d, %Y') }}
+                    </p>
+                    <p>{{ review.review }}</p>
+
+                    <!-- Delete Review Form -->
+                    {% if 'user_id' in session.keys() and review.user.user_id == session['user_id'] %}
+                        <form class="pb-3" action="/deletereview" method="POST">
+                            <input type="hidden" name="review-id" value="{{ review.review_id }}">
+                            <button type="submit">Delete Review</button>
+                        </form>
+                    {% endif %}
+
+                </div>
+            {% endfor %} 
+        </div>
+    </div>
+</section>
 {% endblock %}
