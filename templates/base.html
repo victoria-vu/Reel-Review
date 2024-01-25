@@ -36,11 +36,11 @@
             <div class="collapse navbar-collapse justify-content-end" id="navbarNavAltMarkup">
                 <ul class="navbar-nav">
                     {% if not 'user_id' in session.keys() %}
-                    <li class="nav-item">
+                    <li class="nav-item text-center">
                         <a class="nav-link" href="/login">Log In</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link" href="/#signup">Sign Up</a>
+                        <a class="nav-link navbar-signup-btn btn" href="/#signup">Sign Up</a>
                     </li>
                     {% endif %}
 
@@ -61,9 +61,12 @@
     </nav>
 
     {% for msg in get_flashed_messages() %}
-        <p class="flask-msg">
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <div>
             {{ msg }}
-        </p>
+            </div>
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
     {% endfor %}
 
     {% block body %}{% endblock %}   
