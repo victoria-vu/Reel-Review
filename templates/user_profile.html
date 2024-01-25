@@ -4,19 +4,19 @@
 {% block body %}
 <section class="py-5 my-3">
     <div class="container col-md-6">
-    <h1 class="text-center mb-3">{{ user.fname }}'s Profile</h1>
+    <h2 class="text-center mb-3">{{ user.fname }}'s Profile</h2>
 
     <!-- User Information -->
     <div class="mb-3">
-        <h2 class="text-center mb-3">About Me</h2>
-        <h6><strong>Name:</strong> {{ user.fname }} {{ user.lname[0] }}.</h6>
-        <h6><strong>Joined On:</strong> {{ user.date_joined.strftime('%b %d, %Y') }}</h6>
-        <h6><strong>Reviews:</strong> {{ total_reviews }}</h6>
+        <h3 class="text-center mb-3">About Me</h3>
+        <h5><strong>Name:</strong> {{ user.fname }} {{ user.lname[0] }}.</h5>
+        <h5><strong>Joined On:</strong> {{ user.date_joined.strftime('%b %d, %Y') }}</h5>
+        <h5><strong>Reviews:</strong> {{ total_reviews }}</h5>
     </div>
 
     <!-- User Reviews -->
     <div class="mb-3">
-        <h2 class="text-center mb-3">Reviews</h2>
+        <h3 class="text-center mb-3">Reviews</h3>
         <div class="accordion" id="userReviewsAccordian">
             {% for review in reviews|reverse %}
             <div class="accordion-item">
