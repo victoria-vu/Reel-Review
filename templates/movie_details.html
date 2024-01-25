@@ -20,10 +20,10 @@
 
             <!-- Movie Details -->
             <div class="col-md-8">
-                <h1 class="my-3">{{ movie['original_title'] }}</h1>
-                <h3> Release Date: </h2>
+                <h2 class="my-3">{{ movie['original_title'] }}</h2>
+                <h4> Release Date: </h4>
                 <p class="my-3">{{ release_date }}</p>
-                <h3>Overview:</h2>
+                <h4>Overview:</h4>
                 <p>{{ movie['overview'] }}</p>
             </div>
         </div>
@@ -34,11 +34,11 @@
         {% if 'user_id' in session.keys() %}
             <div class="mb-3">
                 <form class="p-4 px-5 my-3 border rounded-3" action="/addreview/{{ movie['id']}}" method="POST">
-                    <h5 class="pb-1">Write a Review:</h5>
+                    <h4 class="pb-1">Write a Review:</h4>
 
                     <!-- Rating Input -->
                     <div class="form-group pb-3">
-                        <h6>Score:</h6>
+                        <h5>Score:</h5>
                         <div class="star-container">
                             <div class="star-widget">
                                 <input type="radio" name="rating" id="rate-5" value="5" required="">
@@ -57,13 +57,13 @@
 
                     <!-- Text Input -->
                     <div class="form-group pb-3">
-                        <h6>Review:</h6>
+                        <h5>Review:</h5>
                         <textarea class="form-control" name="review" required=""></textarea>
                     </div>
 
                     <!-- Form Action -->
                     <div class="form-group">
-                        <input type="submit">
+                        <button class="action-btn btn" type="submit">Submit</button>
                     </div>
                 </form>
             </div>
@@ -75,7 +75,7 @@
                 <div class="my-1" id="{{ review.review_id }}">
 
                     <!-- Review Content -->
-                    <h5>{{ review.user.fname }}</h5>
+                    <h5><a href="/user/{{ review.user.user_id }}">{{ review.user.fname }}</a></h5>
                     <p>
                         {% for i in range(review.rating) %}
                             <i class="fa-solid fa-star star-yellow"></i>
@@ -88,7 +88,7 @@
                     {% if 'user_id' in session.keys() and review.user.user_id == session['user_id'] %}
                         <form class="pb-3" action="/deletereview" method="POST">
                             <input type="hidden" name="review-id" value="{{ review.review_id }}">
-                            <button type="submit">Delete Review</button>
+                            <button class="action-btn btn" type="submit">Delete Review</button>
                         </form>
                     {% endif %}
 
