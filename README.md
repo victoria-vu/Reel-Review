@@ -1,4 +1,4 @@
-# Reel-Reviews 🎞️
+# Reel Reviews 🎞️
 
 Reel Reviews is a web development application for movie lovers who crave a personalized and interactive cinematic experience. Reel Reviews allows users to search for movies by title, creating a platform where they can not only discover their favorite films but actively participate in movie critiques.
 
