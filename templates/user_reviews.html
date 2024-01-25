@@ -4,7 +4,7 @@
 {% block body %}
 <section class="py-5 my-3">
     <div class="container col-md-6">
-    <h1 class="text-center mb-3">My Reviews</h1>
+    <h2 class="text-center mb-3">My Reviews</h2>
     <div class="accordion" id="movieReviewsAccordian">
         {% for review in reviews|reverse %}
         <div class="accordion-item">
@@ -36,7 +36,7 @@
                     <!-- Delete Review Form  -->
                     <form class="py-1" action="/myreviews/deletereview" method="POST">
                       <input type="hidden" name="review-id" value="{{ review.review_id }}">
-                      <button type="submit">Delete Review</button>
+                      <button class="action-btn btn" type="submit">Delete Review</button>
                     </form>
 
                 </div>
