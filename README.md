@@ -62,7 +62,7 @@ python3 server.py
 <img width="800" alt="Reel Reviews: Movie Search Results" src="https://github.com/victoria-vu/Reel-Review/assets/120001666/016ef4e9-a285-4cdf-974a-7b4cd10a84e7">
 <br>
 <br>
-<img width="800" alt="Reel Reviews: Write a Review" src="https://github.com/victoria-vu/Reel-Review/assets/120001666/8416b2cc-f766-474f-8235-6b917a6081c4">
+<img width="800" alt="Reel Reviews: The Proposal" src="https://github.com/victoria-vu/Reel-Review/assets/120001666/2f6ec839-47ae-4840-9954-c7edd3e34c43">
 <br>
 <br>
 <img width="800" alt="Reel Reviews: My Reviews Page" src="https://github.com/victoria-vu/Reel-Review/assets/120001666/c2f12eea-0ed2-4985-b298-0e5406586f5d">
