@@ -23,12 +23,13 @@
     {% block head %}{% endblock %}
 </head>
 <body>
-    <nav class="navbar navbar-expand-lg">
+    <nav class="navbar fixed-top navbar-expand-lg">
         <div class="container-fluid">
 
             <a class="navbar-brand" href="/">
                 <img src="/static/img/reel-review.svg" alt="Reel Review Logo" width="35" height="35">
-                Reel Reviews</a>
+                Reel Reviews
+            </a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
             </button>
@@ -61,12 +62,14 @@
     </nav>
 
     {% for msg in get_flashed_messages() %}
+    <div class="alert-container">
         <div class="alert alert-success alert-dismissible fade show" role="alert">
             <div>
             {{ msg }}
             </div>
             <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
         </div>
+    </div>
     {% endfor %}
 
     {% block body %}{% endblock %}   
