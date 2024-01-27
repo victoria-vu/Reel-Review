@@ -36,6 +36,7 @@ def signup_user():
 
     if user:
         flash("A user with that email address already exists. Please try a different email address to register, or log in to your existing account.")
+        return redirect("/")
     else:
         user = crud.create_user(email, password, fname, lname)
         db.session.add(user)
@@ -206,7 +207,6 @@ def delete_review_on_movie_details_page():
 def show_user(user_id):
     """Show details about a particular user."""
 
-    user_id = session["user_id"]
     user = crud.get_user_by_id(user_id)
     reviews = crud.get_all_user_reviews(user_id)
     total_reviews = len(reviews)
