@@ -75,7 +75,7 @@
                 <div class="my-1" id="{{ review.review_id }}">
 
                     <!-- Review Content -->
-                    <h5><a href="/user/{{ review.user.user_id }}">{{ review.user.fname }}</a></h5>
+                    <h5><a href="/user/{{ review.user_id }}">{{ review.user.fname }} {{ review.user.lname[0] }}.</a></h5>
                     <p>
                         {% for i in range(review.rating) %}
                             <i class="fa-solid fa-star star-yellow"></i>
